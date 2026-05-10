@@ -3,10 +3,8 @@ import MachO
 
 private func sectionData(segment: String, section: String) -> Data? {
     var size: UInt = 0
-    var header = _mh_execute_header
-    guard let ptr = getsectiondata(&header, segment, section, &size) else {
-        return nil
-    }
+    let header = unsafeBitCast(#dsohandle, to: UnsafePointer<mach_header_64>.self)
+    guard let ptr = getsectiondata(header, segment, section, &size) else { return nil }
     return Data(bytes: ptr, count: Int(size))
 }
 
