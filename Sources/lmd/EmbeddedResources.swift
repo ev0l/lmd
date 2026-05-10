@@ -9,7 +9,8 @@ private func sectionData(segment: String, section: String) -> Data? {
 }
 
 func prepareEditorFiles() -> URL? {
-    let dir = FileManager.default.temporaryDirectory.appendingPathComponent("lmd")
+    let caches = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+    let dir = caches.appendingPathComponent("lmd")
     try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
 
     guard
