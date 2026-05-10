@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build JS bundle
+        run: cd editor-src && npm install && node build.js
+
+      - name: Build arm64
+        run: swift build -c release --arch arm64
+
+      - name: Build x86_64
+        run: swift build -c release --arch x86_64
+
+      - name: Create universal binary
+        run: |
+          lipo -create \
+            .build/arm64-apple-macosx/release/lmd \
+            .build/x86_64-apple-macosx/release/lmd \
+            -output lmd
+
+      - name: Ad-hoc sign
+        run: codesign --sign - --force lmd
+
+      - name: Zip
+        run: zip lmd.zip lmd
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: lmd.zip
+          generate_release_notes: true
