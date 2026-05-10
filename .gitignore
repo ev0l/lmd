@@ -1,0 +1,6 @@
+.build/
+editor-src/node_modules/
+Sources/lmd/Resources/editor.bundle.js
+*.swp
+*.swo
+.DS_Store
