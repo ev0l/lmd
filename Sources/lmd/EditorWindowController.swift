@@ -52,9 +52,7 @@ class EditorWindowController: NSWindowController {
         bridge.webView = webView
         window?.contentView = webView
 
-        guard let htmlURL = Bundle.module.url(forResource: "editor", withExtension: "html") else {
-            return
-        }
+        guard let htmlURL = prepareEditorFiles() else { return }
         let homeDir = URL(fileURLWithPath: NSHomeDirectory())
         webView.loadFileURL(htmlURL, allowingReadAccessTo: homeDir)
     }
