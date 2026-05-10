@@ -29,9 +29,31 @@ Go to [Releases](../../releases) and download the latest `lmd.zip`.
 
 ### 2. Unzip and move to your PATH
 
+**If you have write access to `/usr/local/bin` (most personal Macs):**
+
 ```bash
 unzip lmd.zip
 mv lmd /usr/local/bin/lmd
+```
+
+**On managed/corporate Macs without sudo access, install to your home directory instead:**
+
+```bash
+unzip lmd.zip
+mkdir -p ~/.local/bin
+mv lmd ~/.local/bin/lmd
+```
+
+Then add `~/.local/bin` to your PATH if it isn't already. Add this to your `~/.zshrc`:
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Reload your shell:
+
+```bash
+source ~/.zshrc
 ```
 
 ### 3. Allow it to run
@@ -39,6 +61,8 @@ mv lmd /usr/local/bin/lmd
 macOS will block the binary the first time because it isn't notarized. Fix it with:
 
 ```bash
+xattr -d com.apple.quarantine ~/.local/bin/lmd
+# or if you installed to /usr/local/bin:
 xattr -d com.apple.quarantine /usr/local/bin/lmd
 ```
 
@@ -75,12 +99,12 @@ Requires Xcode command line tools and Node.js (for bundling the editor).
 
 ## Keyboard shortcuts
 
-| Key | Action |
-|-----|--------|
-| `Cmd+S` | Save (also auto-saves) |
-| `Cmd+W` | Close window |
-| `Cmd+Z` / `Cmd+Shift+Z` | Undo / Redo |
-| `Cmd+F` | Find |
-| `Tab` / `Shift+Tab` | Inside a table: next / previous cell |
-| `Enter` | Inside a table: new row below current row |
-| `Escape` | Inside a table: exit table |
+| Key                     | Action                                    |
+| ----------------------- | ----------------------------------------- |
+| `Cmd+S`                 | Save (also auto-saves)                    |
+| `Cmd+W`                 | Close window                              |
+| `Cmd+Z` / `Cmd+Shift+Z` | Undo / Redo                               |
+| `Cmd+F`                 | Find                                      |
+| `Tab` / `Shift+Tab`     | Inside a table: next / previous cell      |
+| `Enter`                 | Inside a table: new row below current row |
+| `Escape`                | Inside a table: exit table                |
